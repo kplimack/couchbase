@@ -24,19 +24,32 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+case node['couchbase']['server']['security_source']
+when 'node_attr'
+  username = node['couchbase']['server']['username']
+  password = node['couchbase']['server']['password']
+when 'citadel'
+  sec_conf = JSON.parse(citadel[node['couchbase']['server']['citadel']['key']])
+  username = sec_conf['username']
+  password = sec_conf['password']
+else
+  username = node['couchbase']['server']['username']
+  password = node['couchbase']['server']['password']
+end
+
 couchbase_bucket "default" do
   memory_quota_mb 100
 
-  username node['couchbase']['server']['username']
-  password node['couchbase']['server']['password']
+  username username
+  password password
 end
 
 couchbase_bucket "memcached" do
   memory_quota_mb 100
   type "memcached"
 
-  username node['couchbase']['server']['username']
-  password node['couchbase']['server']['password']
+  username username
+  password password
 end
 
 couchbase_bucket "modified mb creation" do
@@ -45,8 +58,8 @@ couchbase_bucket "modified mb creation" do
   memory_quota_mb 100
   replicas false
 
-  username node['couchbase']['server']['username']
-  password node['couchbase']['server']['password']
+  username username
+  password password
 end
 
 couchbase_bucket "modified % creation" do
@@ -54,8 +67,8 @@ couchbase_bucket "modified % creation" do
   type "couchbase"
   memory_quota_percent 0.1
 
-  username node['couchbase']['server']['username']
-  password node['couchbase']['server']['password']
+  username username
+  password password
 end
 
 ruby_block "wait for bucket creation, which is asynchronous" do
@@ -70,8 +83,8 @@ couchbase_bucket "modified mb modification" do
   memory_quota_mb 125
   replicas 2
 
-  username node['couchbase']['server']['username']
-  password node['couchbase']['server']['password']
+  username username
+  password password
 end
 
 couchbase_bucket "modified % modification" do
@@ -79,6 +92,6 @@ couchbase_bucket "modified % modification" do
   type "couchbase"
   memory_quota_percent 0.125
 
-  username node['couchbase']['server']['username']
-  password node['couchbase']['server']['password']
+  username username
+  password password
 end

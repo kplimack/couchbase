@@ -9,6 +9,19 @@ prefix = "ns_1@"
 separator=","
 known_nodes=prefix+self.node["ipaddress"]
 
+case node['couchbase']['server']['security_source']
+when 'node_attr'
+  username = node['couchbase']['server']['username']
+  password = node['couchbase']['server']['password']
+when 'citadel'
+  sec_conf = JSON.parse(citadel[node['couchbase']['server']['citadel']['key']])
+  username = sec_conf['username']
+  password = sec_conf['password']
+else
+  username = node['couchbase']['server']['username']
+  password = node['couchbase']['server']['password']
+end
+
 cluster = search(:node, "role:#{cluster_name}")
 cluster.each do |node|
 	if node["ipaddress"] != self.node["ipaddress"]
@@ -16,8 +29,8 @@ cluster.each do |node|
 		known_nodes=known_nodes+separator+prefix+"#{node["ipaddress"]}"
 		add_node "#{cluster_name}" do
   			hostname node["ipaddress"]
-  			username node['couchbase']['server']['username']
-  			password node['couchbase']['server']['password']
+  			username username
+  			password password
 		end
 	end
 end
@@ -25,9 +38,9 @@ end
 ejected_nodes = ""
 cluster_rebal "Rebalance-In Nodes to form a cluster  " do
         ejectedNodes ejected_nodes
-	knownNodes known_nodes
-        username node['couchbase']['server']['username']
-        password node['couchbase']['server']['password']
+	    knownNodes known_nodes
+        username username
+        password password
 end
 
 ruby_block "wait for rebalance completion " do

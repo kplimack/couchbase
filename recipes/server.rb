@@ -89,6 +89,9 @@ when 'citadel'
   sec_conf = JSON.parse(citadel[node['couchbase']['server']['citadel']['key']])
   username = sec_conf['username']
   password = sec_conf['password']
+else
+  username = node['couchbase']['server']['username']
+  password = node['couchbase']['server']['password']
 end
 
 couchbase_node "self" do
