@@ -49,4 +49,3 @@ default['source']['bucket'] = "default"
 default['remote']['bucket'] = "default"
 default['cluster_name'] = "west_cluster"
 default['remote_cluster'] = "remote_cluster"
-

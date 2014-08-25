@@ -38,7 +38,7 @@ unless (node['recipes'].include?("couchbase::server"))
   when "rhel"
     rpm_package File.join(Chef::Config[:file_cache_path], node['couchbase']['moxi']['package_file'])
   end
-  
+
   service "moxi-server" do
     supports :restart => true, :status => true
     action :enable
