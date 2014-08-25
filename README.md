@@ -32,6 +32,7 @@ couchbase-server
 * `node['couchbase']['server']['log_dir']`          - The directory Couchbase should log to
 * `node['couchbase']['server']['memory_quota_mb']`  - The per server RAM quota for the entire cluster in megabytes
                                                       defaults to Couchbase's maximum allowed value
+* `node['couchbase']['server']['security_source']`  - The source to obtain the REST API and Admin UI username & password.  Defaults to 'node_attr', also accepts 'citadel'
 * `node['couchbase']['server']['username']`         - The cluster's username for the REST API and Admin UI
 * `node['couchbase']['server']['password']`         - The cluster's password for the REST API and Admin UI
 

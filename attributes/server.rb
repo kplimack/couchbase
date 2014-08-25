@@ -3,6 +3,7 @@ package_machine = node['kernel']['machine'] == "x86_64" ? "x86_64" : "x86"
 default['couchbase']['server']['edition'] = "community"
 default['couchbase']['server']['version'] = "2.0.1"
 
+default['couchbase']['server']['security_source'] = 'node_attr'
 default['couchbase']['server']['username'] = "Administrator"
 default['couchbase']['server']['password'] = "password"
 
@@ -48,3 +49,4 @@ default['source']['bucket'] = "default"
 default['remote']['bucket'] = "default"
 default['cluster_name'] = "west_cluster"
 default['remote_cluster'] = "remote_cluster"
+
